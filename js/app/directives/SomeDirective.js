@@ -2,15 +2,19 @@ function SomeDirective() {
 	return {
 		template: [
 			'<div>',
-				'<h3>{{ counter }}</h3>',
+				'<h3>{{ some.counter }}</h3>',
 			'</div>'
 		].join(''),
 		controller: function($scope) {
-			$scope.counter = 0;
+			this.counter = 0;
 		},
 		controllerAs: 'some',
-		link: function (scope, elem, attrs) {
-
+		require: 'someDirective',
+		link: function (scope, elem, attrs, ctrl) {
+			document.onkeypress = function() {
+				ctrl.counter ++;
+				scope.$apply();
+			};
 		}
 	}
 }
@@ -18,3 +22,5 @@ function SomeDirective() {
 angular
 	.module('app')
 	.directive('someDirective', SomeDirective);
+
+
